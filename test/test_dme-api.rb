@@ -26,4 +26,14 @@ class TestDmeApi < Test::Unit::TestCase
     assert r.keys.include? "ttl"
   end
 
+  def test_invalid_domain
+    begin
+      dme = DME.new(@api, @secret, "foobar")
+      r = dme.get("www")
+      fail("should have thrown exception")
+    rescue => ex
+      assert ex.kind_of? RestClient::ResourceNotFound
+    end
+  end
+
 end
